@@ -113,7 +113,9 @@ export default class ObDBFetcher extends Plugin {
 						this.app
 					).createOrUpdateNotesInOBFromSourceTable(fetchSource);
 
-					new Notice(`${fetchSource.name} ${t("fetched successfully")}`);
+					new Notice(
+						`${fetchSource.name} ${t("fetched successfully")}`
+					);
 				},
 			});
 
