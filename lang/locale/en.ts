@@ -70,4 +70,5 @@ export default {
 		"Notes updated in the past two weeks",
 	"Notes updated in the past month": "Notes updated in the past month",
 	"All notes": "All notes",
+	"fetched successfully": "fetched successfully",
 };

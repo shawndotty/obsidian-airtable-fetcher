@@ -58,4 +58,5 @@ export default {
 	"Notes updated in the past two weeks": "過去兩週更新的筆記",
 	"Notes updated in the past month": "過去一個月更新的筆記",
 	"All notes": "所有筆記",
+	"fetched successfully": "獲取成功",
 };
