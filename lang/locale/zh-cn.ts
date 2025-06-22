@@ -3,7 +3,7 @@ export default {
 	"Fetch {{name}}": "获取 {{name}}",
 	"Airtable Fetch Sources Configuration": "Airtable 数据源获取配置",
 	"+ Add New Fetch Source": "+ 添加新数据源",
-	"Import New Fetch Sources": "+ 导入新数据源",
+	"Import New Fetch Sources": "导入新数据源",
 	"Export All Fetch Sources": "导出所有数据源",
 	"All fetch source settings exported to clipboard":
 		"所有数据源设置已导出到剪贴板",

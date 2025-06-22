@@ -1,11 +1,11 @@
 {
-	"id": "obsidian-db-fetcher",
-	"name": "Obsidian DB Fetcher",
+	"id": "obsidian-airtable-fetcher",
+	"name": "Airtable Fetcher",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This is a plugin for fetching data from database to Obsidian",
+	"description": "This is a plugin for fetching data from Airtable to Obsidian",
 	"author": "Johnny",
-	"authorUrl": "https://ioto.cc/obsidian-db-fetcher",
-	"fundingUrl": "https://ioto.cc/obsidian-db-fetcher/pricing",
+	"authorUrl": "https://ioto.cc/obsidian-airtable-fetcher",
+	"fundingUrl": "https://ioto.cc/obsidian-airtable-fetcher/pricing",
 	"isDesktopOnly": false
 }
