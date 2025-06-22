@@ -14,6 +14,8 @@ import {
 	setIcon,
 } from "obsidian";
 
+import { t } from "./lang/helpers";
+
 // 扩展 App 类型以包含 commands 属性
 declare module "obsidian" {
 	interface App {
@@ -43,7 +45,7 @@ interface ObDBFetcherSettings {
 const DEFAULT_SETTINGS: ObDBFetcherSettings = {
 	fetchSources: [
 		{
-			name: "Default",
+			name: t("Untitled"),
 			url: "https://example.com",
 			apiKey: "",
 			path: "",
@@ -102,7 +104,7 @@ export default class ObDBFetcher extends Plugin {
 
 			this.addCommand({
 				id: commandId,
-				name: `Open: ${fetchSource.name}`,
+				name: t("Fetch {{name}}", { name: fetchSource.name }),
 				callback: async () => {
 					// 实际执行操作 - 这里示例为打开URL
 
@@ -120,14 +122,6 @@ export default class ObDBFetcher extends Plugin {
 		});
 	}
 
-	// 显示通知的辅助方法
-	private showNotification(message: string) {
-		new Notification(`Fetch Source Command`, {
-			body: message,
-			silent: true,
-		});
-	}
-
 	// 注销所有已注册的命令
 	private unregisterAllCommands() {
 		this.commandIds.forEach((id) => {
@@ -139,22 +133,6 @@ export default class ObDBFetcher extends Plugin {
 	// 刷新命令（在设置更改后调用）
 	public refreshCommands() {
 		this.registerFetchSourceCommands();
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const { contentEl } = this;
-		contentEl.setText("Woah!");
-	}
-
-	onClose() {
-		const { contentEl } = this;
-		contentEl.empty();
 	}
 }
 
@@ -171,7 +149,9 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// 标题
-		containerEl.createEl("h2", { text: "API Fetch Sources Configuration" });
+		containerEl.createEl("h2", {
+			text: t("Airtable Fetch Sources Configuration"),
+		});
 
 		// 创建按钮容器
 		const buttonContainer = containerEl.createDiv({
@@ -182,7 +162,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 		new Setting(buttonContainer)
 			.addButton((button) =>
 				button
-					.setButtonText("+ Add New Fetch Source")
+					.setButtonText(t("+ Add New Fetch Source"))
 					.setCta()
 					.onClick(() => {
 						this.plugin.settings.fetchSources.push({
@@ -199,7 +179,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			)
 			.addButton((button) =>
 				button
-					.setButtonText("+ Import New Fetch Sources")
+					.setButtonText(t("Import New Fetch Sources"))
 					.setCta()
 					.onClick(async () => {
 						const importedFetchSources =
@@ -215,7 +195,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			)
 			.addButton((button) =>
 				button
-					.setButtonText("Export All Fetch Sources")
+					.setButtonText(t("Export All Fetch Sources"))
 					.setCta()
 					.onClick(async () => {
 						// 导出所有fetchSources设置
@@ -248,14 +228,16 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 								fetchSourcesJson
 							);
 							new Notice(
-								"All fetch source settings exported to clipboard"
+								t(
+									"All fetch source settings exported to clipboard"
+								)
 							);
 						} catch (err) {
 							new Notice(
-								"Failed to export fetch source settings"
+								t("Failed to export fetch source settings")
 							);
 							console.error(
-								"Failed to export fetch source settings:",
+								t("Failed to export fetch source settings:"),
 								err
 							);
 						}
@@ -270,14 +252,16 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 	private async importFetchSources(): Promise<FetchSourceSetting[] | null> {
 		// 创建一个模态框用于多行文本输入
 		const modal = new Modal(this.app);
-		modal.titleEl.setText("Import Fetch Sources");
+		modal.titleEl.setText(t("Import Fetch Sources"));
 		const { contentEl } = modal;
 
 		// 创建文本区域
 		const textArea = contentEl.createEl("textarea", {
 			attr: {
 				rows: "10",
-				placeholder: "Please paste the fetch source configuration JSON",
+				placeholder: t(
+					"Please paste the fetch source configuration JSON"
+				),
 			},
 			cls: "full-width-textarea",
 		});
@@ -297,7 +281,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 		// 创建确认按钮
 		buttonContainer
 			.createEl("button", {
-				text: "确认",
+				text: t("Confirm"),
 				cls: "mod-cta",
 			})
 			.addEventListener("click", () => {
@@ -308,7 +292,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 		// 创建取消按钮
 		buttonContainer
 			.createEl("button", {
-				text: "取消",
+				text: t("Cancel"),
 			})
 			.addEventListener("click", () => {
 				fetchSourceJsonArray = "";
@@ -336,8 +320,8 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			});
 			return importedFetchSourceArray;
 		} catch (error) {
-			new Notice("Failed to import fetch sources: Invalid JSON");
-			console.error("Failed to import fetch sources:", error);
+			new Notice(t("Failed to import fetch sources: Invalid JSON"));
+			console.error(t("Failed to import fetch sources:"), error);
 			return null;
 		}
 	}
@@ -377,7 +361,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 
 			// 获取源名称
 			cardHeader.createEl("h3", {
-				text: fetchSource.name || "Unnamed Fetch Source",
+				text: fetchSource.name || t("Unnamed Fetch Source"),
 				cls: "fetch-source-name",
 			});
 
@@ -391,7 +375,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 				cls: "fetch-source-toggle",
 			});
 			toggleContainer.createEl("span", {
-				text: "Export",
+				text: t("Export"),
 				cls: "toggle-label",
 			});
 			const toggle = toggleContainer.createEl("input", {
@@ -410,7 +394,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			const editBtn = actionsContainer.createEl("button", {
 				cls: "fetch-source-action-btn edit-btn",
 				attr: {
-					"aria-label": "Edit fetch source",
+					"aria-label": t("Edit fetch source"),
 				},
 			});
 			setIcon(editBtn, "pencil");
@@ -422,7 +406,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			const copyBtn = actionsContainer.createEl("button", {
 				cls: "fetch-source-action-btn copy-btn",
 				attr: {
-					"aria-label": "Copy fetch source settings",
+					"aria-label": t("Copy fetch source settings"),
 				},
 			});
 			setIcon(copyBtn, "copy");
@@ -446,12 +430,14 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 				navigator.clipboard
 					.writeText(fetchSourceJson)
 					.then(() => {
-						new Notice("Fetch source settings copied to clipboard");
+						new Notice(
+							t("Fetch source settings copied to clipboard")
+						);
 					})
 					.catch((err) => {
-						new Notice("Failed to copy fetch source settings");
+						new Notice(t("Failed to copy fetch source settings"));
 						console.error(
-							"Failed to copy fetch source settings:",
+							t("Failed to copy fetch source settings:"),
 							err
 						);
 					});
@@ -461,7 +447,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 			const deleteBtn = actionsContainer.createEl("button", {
 				cls: "fetch-source-action-btn delete-btn",
 				attr: {
-					"aria-label": "Delete fetch source",
+					"aria-label": t("Delete fetch source"),
 				},
 			});
 			setIcon(deleteBtn, "trash-2");
@@ -483,7 +469,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 					cls: "fetch-source-info",
 				});
 				urlEl.createEl("span", {
-					text: "URL: ",
+					text: t("URL: "),
 					cls: "info-label",
 				});
 				urlEl.createEl("span", {
@@ -498,7 +484,7 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 					cls: "fetch-source-info",
 				});
 				pathEl.createEl("span", {
-					text: "Path: ",
+					text: t("Path: "),
 					cls: "info-label",
 				});
 				pathEl.createEl("span", {
@@ -513,11 +499,11 @@ class FetchSourceSettingsTab extends PluginSettingTab {
 					cls: "fetch-source-info",
 				});
 				keyEl.createEl("span", {
-					text: "API Key: ",
+					text: t("API Key: "),
 					cls: "info-label",
 				});
 				keyEl.createEl("span", {
-					text: "••••••••",
+					text: t("••••••••"),
 					cls: "info-value",
 				});
 			}
@@ -769,7 +755,7 @@ class FetchSourceEditModal extends Modal {
 		contentEl.addClass("fetch-source-edit-modal");
 
 		// 设置标题
-		this.titleEl.setText("Edit Fetch Source");
+		this.titleEl.setText(t("Edit Fetch Source"));
 
 		// 创建表单
 		this.createForm(contentEl);
@@ -783,11 +769,11 @@ class FetchSourceEditModal extends Modal {
 	private createForm(container: HTMLElement) {
 		// 名称设置
 		new Setting(container)
-			.setName("Fetch Source Name")
-			.setDesc("A descriptive name for this fetch source")
+			.setName(t("Fetch Source Name"))
+			.setDesc(t("A descriptive name for this fetch source"))
 			.addText((text) =>
 				text
-					.setPlaceholder("Enter fetch source name")
+					.setPlaceholder(t("Enter fetch source name"))
 					.setValue(this.fetchSource.name)
 					.onChange((value) => {
 						this.fetchSource.name = value;
@@ -796,11 +782,11 @@ class FetchSourceEditModal extends Modal {
 
 		// URL设置
 		new Setting(container)
-			.setName("API URL")
-			.setDesc("The Airtable URL or API endpoint")
+			.setName(t("Fetch Source URL"))
+			.setDesc(t("The Airtable URL For This Fetch Source"))
 			.addText((text) =>
 				text
-					.setPlaceholder("https://airtable.com/app...")
+					.setPlaceholder(t("https://airtable.com/app..."))
 					.setValue(this.fetchSource.url)
 					.onChange((value) => {
 						this.fetchSource.url = value;
@@ -809,13 +795,13 @@ class FetchSourceEditModal extends Modal {
 
 		// API Key设置
 		new Setting(container)
-			.setName("API Key")
-			.setDesc("Your Airtable API key")
+			.setName(t("API Key"))
+			.setDesc(t("Your Airtable API key"))
 			.addText((text) => {
 				// Set initial type to password for security
 				text.inputEl.type = "password";
 
-				text.setPlaceholder("Enter your API key")
+				text.setPlaceholder(t("Enter your API key"))
 					.setValue(this.fetchSource.apiKey)
 					.onChange((value) => {
 						this.fetchSource.apiKey = value;
@@ -830,7 +816,7 @@ class FetchSourceEditModal extends Modal {
 					const visibilityBtn = container.createEl("button", {
 						cls: "visibility-toggle-btn",
 						attr: {
-							"aria-label": "Toggle API key visibility",
+							"aria-label": t("Toggle API key visibility"),
 						},
 					});
 
@@ -856,11 +842,11 @@ class FetchSourceEditModal extends Modal {
 
 		// Path设置
 		new Setting(container)
-			.setName("Target Path")
-			.setDesc("The folder path where notes will be created")
+			.setName(t("Target Path"))
+			.setDesc(t("The folder path where notes will be created"))
 			.addText((text) =>
 				text
-					.setPlaceholder("e.g., My Notes/Airtable")
+					.setPlaceholder(t("e.g., My Notes/Airtable"))
 					.setValue(this.fetchSource.path)
 					.onChange((value) => {
 						this.fetchSource.path = value;
@@ -869,8 +855,8 @@ class FetchSourceEditModal extends Modal {
 
 		// Export Toggle
 		new Setting(container)
-			.setName("Include in Export")
-			.setDesc("Whether to include this fetch source when exporting")
+			.setName(t("Include in Export"))
+			.setDesc(t("Whether to include this fetch source when exporting"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.fetchSource.willExport)
@@ -887,7 +873,7 @@ class FetchSourceEditModal extends Modal {
 		// 保存按钮
 		buttonContainer
 			.createEl("button", {
-				text: "Save",
+				text: t("Save"),
 				cls: "mod-cta",
 			})
 			.addEventListener("click", () => {
@@ -898,7 +884,7 @@ class FetchSourceEditModal extends Modal {
 		// 取消按钮
 		buttonContainer
 			.createEl("button", {
-				text: "Cancel",
+				text: t("Cancel"),
 			})
 			.addEventListener("click", () => {
 				this.close();
@@ -1005,7 +991,9 @@ class AirtableFetcher {
 		console.dir(notesToCreateOrUpdate);
 
 		new Notice(
-			`There are ${notesToCreateOrUpdate.length} files needed to be updated or created.`
+			t("There are {{count}} files needed to be updated or created.", {
+				count: notesToCreateOrUpdate.length.toString(),
+			})
 		);
 
 		let configDirModified = 0;
@@ -1031,7 +1019,11 @@ class AirtableFetcher {
 					await this.vault.adapter
 						.write(notePath, noteContent)
 						.catch((r: any) => {
-							new Notice("Failed to write file: " + r);
+							new Notice(
+								t("Failed to write file: {{error}}", {
+									error: r,
+								})
+							);
 						});
 					configDirModified++;
 				} else {
@@ -1046,10 +1038,12 @@ class AirtableFetcher {
 			notesToCreateOrUpdate = notesToCreateOrUpdate.slice(10);
 			if (notesToCreateOrUpdate.length) {
 				new Notice(
-					`There are ${notesToCreateOrUpdate.length} files needed to be processed.`
+					t("There are {{count}} files needed to be processed.", {
+						count: notesToCreateOrUpdate.length.toString(),
+					})
 				);
 			} else {
-				new Notice("All Finished.");
+				new Notice(t("All Finished."));
 			}
 		}
 	}
@@ -1085,7 +1079,11 @@ class AirtableFetcher {
 
 				const data = responseObj.json;
 				records = records.concat(data.records);
-				new Notice(`Got ${records.length} records`);
+				new Notice(
+					t("Got {{count}} records", {
+						count: records.length.toString(),
+					})
+				);
 
 				offset = data.offset || "";
 			} catch (error) {
@@ -1105,23 +1103,23 @@ interface DateFilterOption {
 
 class DateFilterSuggester extends FuzzySuggestModal<DateFilterOption> {
 	private options: DateFilterOption[] = [
-		{ id: "day", name: "Help documents updated today", value: 1 },
+		{ id: "day", name: t("Notes updated today"), value: 1 },
 		{
 			id: "week",
-			name: "Help documents updated in the past week",
+			name: t("Notes updated in the past week"),
 			value: 7,
 		},
 		{
 			id: "twoWeeks",
-			name: "Help documents updated in the past two weeks",
+			name: t("Notes updated in the past two weeks"),
 			value: 14,
 		},
 		{
 			id: "month",
-			name: "Help documents updated in the past month",
+			name: t("Notes updated in the past month"),
 			value: 30,
 		},
-		{ id: "all", name: "All help documents", value: 99 },
+		{ id: "all", name: t("All notes"), value: 99 },
 	];
 
 	getItems(): DateFilterOption[] {
