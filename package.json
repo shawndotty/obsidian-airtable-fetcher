@@ -1,5 +1,5 @@
 {
-	"name": "obsidian-db-fetcher",
+	"name": "obsidian-airtable-fetcher",
 	"version": "1.0.0",
 	"description": "This is a plugin for fetching data from database to Obsidian",
 	"main": "main.js",

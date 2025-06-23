@@ -54,6 +54,7 @@ export default {
 	"All Finished.": "全部完成。",
 	"Got {{count}} records": "獲取到 {{count}} 條記錄",
 	"Notes updated today": "今日更新的筆記",
+	"Notes updated in the pas 3 days": "過去3天更新的筆記",
 	"Notes updated in the past week": "過去一週更新的筆記",
 	"Notes updated in the past two weeks": "過去兩週更新的筆記",
 	"Notes updated in the past month": "過去一個月更新的筆記",

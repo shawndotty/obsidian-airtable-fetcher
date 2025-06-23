@@ -1107,21 +1107,26 @@ class DateFilterSuggester extends FuzzySuggestModal<DateFilterOption> {
 	private options: DateFilterOption[] = [
 		{ id: "day", name: `1. ${t("Notes updated today")}`, value: 1 },
 		{
+			id: "threeDays",
+			name: `2. ${t("Notes updated in the pas 3 days")}`,
+			value: 3,
+		},
+		{
 			id: "week",
-			name: `2. ${t("Notes updated in the past week")}`,
+			name: `3. ${t("Notes updated in the past week")}`,
 			value: 7,
 		},
 		{
 			id: "twoWeeks",
-			name: `3. ${t("Notes updated in the past two weeks")}`,
+			name: `4. ${t("Notes updated in the past two weeks")}`,
 			value: 14,
 		},
 		{
 			id: "month",
-			name: `4. ${t("Notes updated in the past month")}`,
+			name: `5. ${t("Notes updated in the past month")}`,
 			value: 30,
 		},
-		{ id: "all", name: `5. ${t("All notes")}`, value: 99 },
+		{ id: "all", name: `6. ${t("All notes")}`, value: 9999 },
 	];
 
 	getItems(): DateFilterOption[] {

@@ -65,6 +65,7 @@ export default {
 	"All Finished.": "All Finished.",
 	"Got {{count}} records": "Got {{count}} records",
 	"Notes updated today": "Notes updated today",
+	"Notes updated in the pas 3 days": "Notes updated in the pas 3 days",
 	"Notes updated in the past week": "Notes updated in the past week",
 	"Notes updated in the past two weeks":
 		"Notes updated in the past two weeks",
