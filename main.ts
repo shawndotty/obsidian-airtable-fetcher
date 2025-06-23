@@ -46,7 +46,7 @@ const DEFAULT_SETTINGS: ObDBFetcherSettings = {
 	fetchSources: [
 		{
 			name: t("Untitled"),
-			url: "https://example.com",
+			url: "https://airtable.com/app...",
 			apiKey: "",
 			path: "",
 			willExport: true,
