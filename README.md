@@ -2,17 +2,16 @@
 
 # Obsidian Airtable Fetcher
 
-Obsidian Airtable Fetcher is a powerful plugin for [Obsidian](https://obsidian.md) that allows you to connect to your [Airtable](https://airtable.com/) bases, fetch data, and seamlessly create or update notes within your vault. It's the perfect tool for syncing content like project tasks, CRM contacts, research data, or any structured information you manage in Airtable.
+Obsidian Airtable Fetcher is a plugin for [Obsidian](https://obsidian.md) that allows you to connect to your [Airtable](https://airtable.com/) bases, fetch data, and seamlessly create or update notes within your vault. It's a helpful tool for syncing content like project tasks, CRM contacts, research data, or any structured information you manage in Airtable.
 
 ## Features
 
 - **Multiple Fetch Sources**: Configure connections to different Airtable bases, tables, or views.
-- **Command Palette Integration**: Each fetch source gets its own command for quick and easy data fetching.
+- **Command Palette Integration**: Each fetch source gets its own command for quick and easy data fetching, which also allows you to assign custom hotkeys.
 - **Smart Syncing**: Choose to fetch all notes or only those updated within a specific timeframe (e.g., last day, week, month).
 - **Flexible Note Organization**: Automatically save notes to designated folders and even create subfolders based on your Airtable data.
 - **Easy Configuration**: A user-friendly settings interface to add, edit, delete, and manage your fetch sources.
 - **Import/Export**: Easily back up, share, and import fetch source configurations in JSON format.
-- **Secure**: Your API keys are stored securely and are hidden in the interface.
 - **Multi-language Support**: Available in English, Simplified Chinese, and Traditional Chinese.
 
 ## How It Works
@@ -23,12 +22,13 @@ The plugin operates based on "Fetch Sources". Each source is a saved configurati
 
 To use this plugin, your Airtable table must contain a few specific fields. The plugin looks for these fields by name to correctly create the notes.
 
-| Field Name  | Field Type         | Required | Description                                                                                                                            |
-| :---------- | :----------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Title`     | Single line text   | **Yes**  | The value in this field will become the filename and title of your Obsidian note.                                                                      |
-| `MD`        | Long text          | **Yes**  | The content for your Obsidian note. You can enable Markdown formatting for this field within Airtable.                                                 |
-| `SubFolder` | Single line text   | No       | (Optional) If you want to organize notes into subfolders, specify the subfolder path here (e.g., `Project A/Tasks`).                                    |
-| `UpdatedIn` | Formula (Number)   | **Yes**  | A formula that calculates the number of days since the record was last modified. This is crucial for the "smart sync" feature. See formula below. |
+| Field Name  | Field Type                   | Required | Description                                                                                                                            |
+| :---------- | :--------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Title`     | Single line text             | **Yes**  | The value in this field will become the filename and title of your Obsidian note.                                                                      |
+| `MD`        | Long text                    | **Yes**  | The content for your Obsidian note. You can enable Markdown formatting for this field within Airtable.                                                 |
+| `SubFolder` | Single line text or Single Select | No       | (Optional) If you want to organize notes into subfolders, specify the subfolder path here (e.g., `Project A/Tasks`).                                    |
+| `Extension` | Single line text or Single Select | No       | (Optional) The file extension for the note (e.g., `txt`, `css`, `js`). Defaults to `md` if not provided.                                           |
+| `UpdatedIn` | Formula (Number)             | **Yes**  | A formula that calculates the number of days since the record was last modified. This is crucial for the "smart sync" feature. See formula below. |
 
 **`UpdatedIn` Field Formula:**
 
@@ -44,7 +44,7 @@ Follow these steps to set up your first connection between Obsidian and Airtable
 
 ### Step 1: Install the Plugin
 
-Install the "Airtable Fetcher" plugin from the Obsidian Community Plugins browser.
+It's recommended to install this plugin using the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
 
 ### Step 2: Get Your Airtable Information
 

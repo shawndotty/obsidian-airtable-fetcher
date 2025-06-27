@@ -27,7 +27,8 @@ Obsidian Airtable Fetcher 是一款功能简单的 [Obsidian](https://obsidian.m
 | `Title`     | 单行文本 (Single line text)                        | **是**   | 此字段中的值将成为您的 Obsidian 笔记的文件名和标题。                                   |
 | `MD`        | 长文本 (Long text)                                 | **是**   | 您的 Obsidian 笔记内容。您可以在 Airtable 中为此字段启用 Markdown 格式。               |
 | `SubFolder` | 单行文本或单选 (Single line text or Single Select) | 否       | (可选) 如果您想将笔记整理到子文件夹中，请在此处指定子文件夹路径 (例如 `项目 A/任务`)。 |
-| `UpdatedIn` | 公式 (数字) (Formula (Number))                     | **是**   | 一个计算记录自上次修改以来天数的公式。这对于“智能同步”功能至关重要。请参阅下面的公式。 |
+| `Extension` | 单行文本或单选 (Single line text or Single Select) | 否       | (可选) 笔记的文件扩展名 (例如 `txt`, `css`, `js`)。如果未提供，则默认为 `md`。                                                                 |
+| `UpdatedIn` | 公式 (数字) (Formula (Number))                     | **是**   | 一个计算记录自上次修改以来天数的公式。这对于“智能同步”功能至-至关重要。请参阅下面的公式。 |
 
 **`UpdatedIn` 字段公式:**
 
