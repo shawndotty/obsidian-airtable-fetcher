@@ -1,3 +1,5 @@
+[简体中文](README_zh-cn.md)
+
 # Obsidian Airtable Fetcher
 
 Obsidian Airtable Fetcher is a powerful plugin for [Obsidian](https://obsidian.md) that allows you to connect to your [Airtable](https://airtable.com/) bases, fetch data, and seamlessly create or update notes within your vault. It's the perfect tool for syncing content like project tasks, CRM contacts, research data, or any structured information you manage in Airtable.
