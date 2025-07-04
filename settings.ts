@@ -6,7 +6,7 @@ import {
 	Modal,
 	Notice,
 } from "obsidian";
-import { t } from "./lang/helpers";
+import { t, encodeBase64, decodeBase64 } from "./lang/helpers";
 import { FetchSourceSetting } from "./types";
 import { FetchSourceEditModal } from "./modals";
 import { AirtableFetcher } from "./airtable-fetcher";
@@ -81,6 +81,11 @@ export class FetchSourceSettingsTab extends PluginSettingTab {
 									// 创建fetchSource的副本并移除id
 									const fetchSourceCopy = { ...fetchSource };
 									delete fetchSourceCopy.id;
+									// 导出时apiKey转为明文
+									if (fetchSourceCopy.apiKey) {
+										fetchSourceCopy.apiKey =
+											fetchSourceCopy.apiKey;
+									}
 									return fetchSourceCopy;
 								}
 							);
@@ -295,6 +300,10 @@ export class FetchSourceSettingsTab extends PluginSettingTab {
 					};
 					// 移除id属性,因为新复制的fetchSource需要新的id
 					delete fetchSourceCopy.id;
+					// 复制时apiKey转为明文
+					if (fetchSourceCopy.apiKey) {
+						fetchSourceCopy.apiKey = fetchSourceCopy.apiKey;
+					}
 
 					// 将fetchSource对象放入数组中
 					const fetchSourceArray = [fetchSourceCopy];

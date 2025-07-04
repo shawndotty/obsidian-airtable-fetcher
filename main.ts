@@ -1,5 +1,5 @@
 import { Notice, Plugin } from "obsidian";
-import { t } from "./lang/helpers";
+import { t, encodeBase64, decodeBase64 } from "./lang/helpers";
 import { ObDBFetcherSettings } from "./types";
 import { FetchSourceSettingsTab } from "./settings";
 import { AirtableFetcher } from "./airtable-fetcher";
@@ -48,16 +48,27 @@ export default class ObDBFetcher extends Plugin {
 			await this.loadData()
 		);
 
-		// 确保每个fetchSource都有唯一ID
+		// 确保每个fetchSource都有唯一ID，并对apiKey解码
 		this.settings.fetchSources.forEach((fetchSource) => {
 			if (!fetchSource.id) {
 				fetchSource.id = this.generateUniqueId();
+			}
+			// 解码apiKey
+			if (fetchSource.apiKey) {
+				fetchSource.apiKey = decodeBase64(fetchSource.apiKey);
 			}
 		});
 	}
 
 	async saveSettings() {
-		await this.saveData(this.settings);
+		// 保存前对apiKey编码
+		const settingsToSave = JSON.parse(JSON.stringify(this.settings));
+		settingsToSave.fetchSources.forEach((fetchSource: any) => {
+			if (fetchSource.apiKey) {
+				fetchSource.apiKey = encodeBase64(fetchSource.apiKey);
+			}
+		});
+		await this.saveData(settingsToSave);
 	}
 
 	// 生成唯一ID（使用时间戳+随机数）
