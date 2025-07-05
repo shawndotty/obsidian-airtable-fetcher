@@ -1,5 +1,5 @@
 import { App, Vault, Notice, normalizePath } from "obsidian";
-import { t } from "./lang/helpers";
+import { t } from "../lang/helpers";
 import {
 	FetchSourceSetting,
 	AirtableIds,

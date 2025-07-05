@@ -1,5 +1,5 @@
 import { Modal, Setting } from "obsidian";
-import { t } from "./lang/helpers";
+import { t } from "../lang/helpers";
 import { FetchSourceSetting } from "./types";
 import { setIcon } from "obsidian";
 
