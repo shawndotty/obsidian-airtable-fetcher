@@ -10,11 +10,11 @@ import { t } from "../lang/helpers";
 import { encodeBase64, decodeBase64 } from "./utils";
 import { FetchSourceSetting } from "./types";
 import { FetchSourceEditModal } from "./modals";
+import ObAirtableFetcher from "../main";
 
 // FetchSourceSettingsTab 类从 main.ts 移动至此，并导出
 export class FetchSourceSettingsTab extends PluginSettingTab {
-	plugin: any; // 这里的 any 后续可替换为具体插件类型
-
+	plugin: ObAirtableFetcher;
 	constructor(app: App, plugin: any) {
 		super(app, plugin);
 		this.plugin = plugin;

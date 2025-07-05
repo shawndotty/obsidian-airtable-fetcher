@@ -1,7 +1,10 @@
 import { Notice, Plugin } from "obsidian";
 import { t } from "./lang/helpers";
 import { encodeBase64, decodeBase64 } from "./src/utils";
-import { ObDBFetcherSettings } from "./src/types";
+import type {
+	FetchSourceSetting,
+	ObAirtableFetcherSettings,
+} from "./src/types";
 import { FetchSourceSettingsTab } from "./src/settings";
 import { AirtableFetcher } from "./src/airtable-fetcher";
 
@@ -16,7 +19,7 @@ declare module "obsidian" {
 
 // Remember to rename these classes and interfaces!
 
-const DEFAULT_SETTINGS: ObDBFetcherSettings = {
+const DEFAULT_SETTINGS: ObAirtableFetcherSettings = {
 	fetchSources: [
 		{
 			name: t("Untitled"),
@@ -28,8 +31,8 @@ const DEFAULT_SETTINGS: ObDBFetcherSettings = {
 	],
 };
 
-export default class ObDBFetcher extends Plugin {
-	settings: ObDBFetcherSettings;
+export default class ObAirtableFetcher extends Plugin {
+	settings: ObAirtableFetcherSettings;
 	private commandIds: Set<string> = new Set(); // 跟踪已注册的命令ID
 
 	async onload() {
@@ -50,15 +53,17 @@ export default class ObDBFetcher extends Plugin {
 		);
 
 		// 确保每个fetchSource都有唯一ID，并对apiKey解码
-		this.settings.fetchSources.forEach((fetchSource) => {
-			if (!fetchSource.id) {
-				fetchSource.id = this.generateUniqueId();
+		this.settings.fetchSources.forEach(
+			(fetchSource: FetchSourceSetting) => {
+				if (!fetchSource.id) {
+					fetchSource.id = this.generateUniqueId();
+				}
+				// 解码apiKey
+				if (fetchSource.apiKey) {
+					fetchSource.apiKey = decodeBase64(fetchSource.apiKey);
+				}
 			}
-			// 解码apiKey
-			if (fetchSource.apiKey) {
-				fetchSource.apiKey = decodeBase64(fetchSource.apiKey);
-			}
-		});
+		);
 	}
 
 	async saveSettings() {
@@ -84,29 +89,31 @@ export default class ObDBFetcher extends Plugin {
 		// 先移除所有旧命令
 		this.unregisterAllCommands();
 
-		this.settings.fetchSources.forEach((fetchSource) => {
-			const commandId = `open-${fetchSource.id}`;
+		this.settings.fetchSources.forEach(
+			(fetchSource: FetchSourceSetting) => {
+				const commandId = `open-${fetchSource.id}`;
 
-			this.addCommand({
-				id: commandId,
-				name: t("Fetch {{name}}", { name: fetchSource.name }),
-				callback: async () => {
-					// 实际执行操作 - 这里示例为打开URL
+				this.addCommand({
+					id: commandId,
+					name: t("Fetch {{name}}", { name: fetchSource.name }),
+					callback: async () => {
+						// 实际执行操作 - 这里示例为打开URL
 
-					await new AirtableFetcher(
-						fetchSource,
-						this.app
-					).createOrUpdateNotesInOBFromSourceTable(fetchSource);
+						await new AirtableFetcher(
+							fetchSource,
+							this.app
+						).createOrUpdateNotesInOBFromSourceTable(fetchSource);
 
-					new Notice(
-						`${fetchSource.name} ${t("fetched successfully")}`
-					);
-				},
-			});
+						new Notice(
+							`${fetchSource.name} ${t("fetched successfully")}`
+						);
+					},
+				});
 
-			// 记录已注册的命令ID
-			this.commandIds.add(commandId);
-		});
+				// 记录已注册的命令ID
+				this.commandIds.add(commandId);
+			}
+		);
 	}
 
 	// 注销所有已注册的命令

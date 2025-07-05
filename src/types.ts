@@ -9,7 +9,7 @@ export interface FetchSourceSetting {
 	willExport: boolean;
 }
 
-export interface ObDBFetcherSettings {
+export interface ObAirtableFetcherSettings {
 	fetchSources: FetchSourceSetting[];
 }
 
