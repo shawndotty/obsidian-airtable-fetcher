@@ -81,10 +81,11 @@ export class FetchSourceSettingsTab extends PluginSettingTab {
 									// 创建fetchSource的副本并移除id
 									const fetchSourceCopy = { ...fetchSource };
 									delete fetchSourceCopy.id;
-									// 导出时apiKey转为明文
+									// 导出时apiKey进行base64编码
 									if (fetchSourceCopy.apiKey) {
-										fetchSourceCopy.apiKey =
-											fetchSourceCopy.apiKey;
+										fetchSourceCopy.apiKey = encodeBase64(
+											fetchSourceCopy.apiKey
+										);
 									}
 									return fetchSourceCopy;
 								}
@@ -199,6 +200,10 @@ export class FetchSourceSettingsTab extends PluginSettingTab {
 				if (!fetchSource.id) {
 					fetchSource.id = this.plugin.generateUniqueId();
 				}
+				// 导入时对apiKey进行base64解码
+				if (fetchSource.apiKey) {
+					fetchSource.apiKey = decodeBase64(fetchSource.apiKey);
+				}
 			});
 			return importedFetchSourceArray;
 		} catch (error) {
@@ -300,9 +305,11 @@ export class FetchSourceSettingsTab extends PluginSettingTab {
 					};
 					// 移除id属性,因为新复制的fetchSource需要新的id
 					delete fetchSourceCopy.id;
-					// 复制时apiKey转为明文
+					// 复制时apiKey进行base64编码
 					if (fetchSourceCopy.apiKey) {
-						fetchSourceCopy.apiKey = fetchSourceCopy.apiKey;
+						fetchSourceCopy.apiKey = encodeBase64(
+							fetchSourceCopy.apiKey
+						);
 					}
 
 					// 将fetchSource对象放入数组中
