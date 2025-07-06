@@ -1,6 +1,6 @@
 import { FuzzySuggestModal, FuzzyMatch } from "obsidian";
 import { DateFilterOption } from "./types";
-import { t } from "../lang/helpers";
+import { t } from "./lang/helpers";
 
 // 通用 Suggester 基类
 export abstract class BaseSuggester<T> extends FuzzySuggestModal<T> {

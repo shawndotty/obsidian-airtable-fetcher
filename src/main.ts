@@ -1,12 +1,9 @@
 import { Notice, Plugin } from "obsidian";
 import { t } from "./lang/helpers";
-import { encodeBase64, decodeBase64 } from "./src/utils";
-import type {
-	FetchSourceSetting,
-	ObAirtableFetcherSettings,
-} from "./src/types";
-import { FetchSourceSettingsTab } from "./src/settings";
-import { AirtableFetcher } from "./src/airtable-fetcher";
+import { encodeBase64, decodeBase64 } from "./utils";
+import type { FetchSourceSetting, ObAirtableFetcherSettings } from "./types";
+import { FetchSourceSettingsTab } from "./settings";
+import { AirtableFetcher } from "./airtable-fetcher";
 
 // 扩展 App 类型以包含 commands 属性
 declare module "obsidian" {

@@ -6,11 +6,11 @@ import {
 	Modal,
 	Notice,
 } from "obsidian";
-import { t } from "../lang/helpers";
+import { t } from "./lang/helpers";
 import { encodeBase64, decodeBase64 } from "./utils";
 import { FetchSourceSetting } from "./types";
 import { FetchSourceEditModal } from "./modals";
-import ObAirtableFetcher from "../main";
+import ObAirtableFetcher from "./main";
 
 // FetchSourceSettingsTab 类从 main.ts 移动至此，并导出
 export class FetchSourceSettingsTab extends PluginSettingTab {
